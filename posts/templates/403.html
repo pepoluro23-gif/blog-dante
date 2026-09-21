@@ -1,0 +1,15 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Sin permiso · Blog de Dante{% endblock %}
+
+{% block masthead %}
+<div class="page-heading">
+    <h1>Sin permiso</h1>
+    <span class="subheading">No podés realizar esta acción</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<p>No tenés permiso para ver o modificar este contenido.</p>
+<a class="btn btn-outline-secondary" href="{% url 'lista_posts' %}">← Volver al inicio</a>
+{% endblock %}

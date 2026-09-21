@@ -1,0 +1,15 @@
+{% extends "posts/base.html" %}
+
+{% block title %}No encontrado · Blog de Dante{% endblock %}
+
+{% block masthead %}
+<div class="page-heading">
+    <h1>Página no encontrada</h1>
+    <span class="subheading">Error 404</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<p>La página que buscás no existe o fue eliminada.</p>
+<a class="btn btn-outline-secondary" href="{% url 'lista_posts' %}">← Volver al inicio</a>
+{% endblock %}
