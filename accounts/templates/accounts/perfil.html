@@ -1,0 +1,47 @@
+{% extends "posts/base.html" %}
+{% load static %}
+
+{% block title %}Mi perfil · Blog de Dante{% endblock %}
+
+{% block masthead %}
+<div class="page-heading">
+    <h1>Mi perfil</h1>
+    <span class="subheading">{{ user.username }}</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center gap-4 mb-4">
+    {% if perfil.avatar %}
+        <img src="{{ perfil.avatar.url }}" alt="Avatar de {{ user.username }}" class="avatar-perfil" />
+    {% else %}
+        <div class="avatar-perfil bg-secondary d-flex align-items-center justify-content-center text-white fs-1">
+            {{ user.username|first|upper }}
+        </div>
+    {% endif %}
+    <div>
+        <p class="mb-1"><strong>Usuario:</strong> {{ user.username }}</p>
+        <p class="mb-1"><strong>Nombre:</strong> {{ user.get_full_name|default:"—" }}</p>
+        <p class="mb-1"><strong>Email:</strong> {{ user.email|default:"—" }}</p>
+    </div>
+</div>
+
+<p><strong>Biografía:</strong> {{ perfil.biografia|default:"Todavía no agregaste una biografía." }}</p>
+{% if perfil.link_web %}
+    <p><strong>Web:</strong> <a href="{{ perfil.link_web }}" target="_blank" rel="noopener">{{ perfil.link_web }}</a></p>
+{% endif %}
+
+<div class="d-flex flex-wrap gap-2 my-4">
+    <a class="btn btn-primary" href="{% url 'editar_perfil' %}">Editar perfil</a>
+    <a class="btn btn-outline-secondary" href="{% url 'password_change' %}">Cambiar contraseña</a>
+</div>
+
+<h4>Mis posts publicados</h4>
+<ul>
+    {% for post in posts %}
+        <li><a href="{{ post.get_absolute_url }}">{{ post.titulo }}</a></li>
+    {% empty %}
+        <li>Todavía no publicaste posts.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
