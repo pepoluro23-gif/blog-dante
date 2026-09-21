@@ -1,0 +1,31 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Mis posts · Blog de Dante{% endblock %}
+
+{% block masthead %}
+<div class="page-heading">
+    <h1>Mis posts</h1>
+    <span class="subheading">Incluye borradores y archivados</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary text-uppercase mb-4" href="{% url 'crear_post' %}">Nuevo post</a>
+
+{% for post in posts %}
+    <div class="post-preview">
+        <a href="{{ post.get_absolute_url }}">
+            <h2 class="post-title">{{ post.titulo }}</h2>
+        </a>
+        <p class="post-meta">
+            {{ post.fecha_creacion|date:"d/m/Y" }}
+            <span class="badge {% if post.estado == 'publicado' %}bg-success{% else %}bg-warning text-dark{% endif %} badge-estado">{{ post.get_estado_display }}</span>
+            · <a href="{% url 'editar_post' post.slug %}">Editar</a>
+            · <a href="{% url 'eliminar_post' post.slug %}">Eliminar</a>
+        </p>
+    </div>
+    <hr class="my-4" />
+{% empty %}
+    <p>Todavía no escribiste ningún post. <a href="{% url 'crear_post' %}">Creá el primero</a>.</p>
+{% endfor %}
+{% endblock %}

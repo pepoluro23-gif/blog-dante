@@ -1,0 +1,29 @@
+{% extends "posts/base.html" %}
+{% load static %}
+
+{% block title %}Contacto · Blog de Dante{% endblock %}
+
+{% block masthead_img %}{% static 'posts/assets/img/contact-bg.jpg' %}{% endblock %}
+
+{% block masthead %}
+<div class="page-heading">
+    <h1>Contacto</h1>
+    <span class="subheading">¿Tenés una consulta? Escribime.</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    {% for campo in form %}
+        <div class="mb-3">
+            <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+            {{ campo }}
+            {% for error in campo.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary text-uppercase">Enviar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "posts/base.html" %}
+{% load static %}
+
+{% block title %}{{ post.titulo }} · Blog de Dante{% endblock %}
+
+{% block masthead_img %}{% if post.imagen %}{{ post.imagen.url }}{% else %}{% static 'posts/assets/img/post-bg.jpg' %}{% endif %}{% endblock %}
+
+{% block masthead %}
+<div class="post-heading">
+    <h1>{{ post.titulo }}</h1>
+    {% if post.subtitulo %}<h2 class="subheading">{{ post.subtitulo }}</h2>{% endif %}
+    <span class="meta">
+        Publicado por
+        {% if post.autor.perfil.avatar %}
+            <img src="{{ post.autor.perfil.avatar.url }}" alt="Avatar de {{ post.autor.username }}" class="avatar-autor" />
+        {% endif %}
+        {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y" }}
+        {% if post.estado != "publicado" %}
+            <span class="badge bg-warning text-dark badge-estado">{{ post.get_estado_display }}</span>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
+
+{% block content %}
+<article class="mb-4">
+    {% if post.imagen %}
+        <img src="{{ post.imagen.url }}" alt="Imagen de {{ post.titulo }}" class="post-imagen mb-4" />
+    {% endif %}
+    {{ post.contenido|linebreaks }}
+</article>
+
+{% if post.autor.perfil.biografia %}
+    <div class="border-top pt-3 mb-4">
+        <p class="mb-1"><strong>Sobre {{ post.autor.username }}</strong></p>
+        <p class="text-muted">{{ post.autor.perfil.biografia }}</p>
+    </div>
+{% endif %}
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a class="btn btn-outline-secondary" href="{% url 'lista_posts' %}">← Volver al inicio</a>
+    {% if puede_gestionar %}
+        <a class="btn btn-primary" href="{% url 'editar_post' post.slug %}">Editar</a>
+        <a class="btn btn-danger" href="{% url 'eliminar_post' post.slug %}">Eliminar</a>
+    {% endif %}
+</div>
+{% endblock %}

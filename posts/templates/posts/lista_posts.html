@@ -1,0 +1,49 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Inicio · Blog de Dante{% endblock %}
+
+{% block content %}
+<form method="get" action="{% url 'lista_posts' %}" class="input-group mb-4">
+    <input type="search" name="q" value="{{ busqueda }}" class="form-control" placeholder="Buscar posts..." aria-label="Buscar posts" />
+    <button class="btn btn-primary" type="submit">Buscar</button>
+    {% if busqueda %}
+        <a class="btn btn-outline-secondary" href="{% url 'lista_posts' %}">Limpiar</a>
+    {% endif %}
+</form>
+
+{% if busqueda %}
+    <p class="text-muted">Resultados para «{{ busqueda }}»: {{ posts.paginator.count }}</p>
+{% endif %}
+
+{% for post in posts %}
+    <div class="post-preview">
+        <a href="{{ post.get_absolute_url }}">
+            <h2 class="post-title">{{ post.titulo }}</h2>
+            {% if post.subtitulo %}<h3 class="post-subtitle">{{ post.subtitulo }}</h3>{% endif %}
+        </a>
+        <p class="post-meta">
+            Publicado por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y" }}
+        </p>
+        <p>{{ post.contenido|truncatewords:30 }}</p>
+    </div>
+    <hr class="my-4" />
+{% empty %}
+    {% if busqueda %}
+        <p>No se encontraron posts para tu búsqueda.</p>
+    {% else %}
+        <p>Todavía no hay posts publicados.</p>
+    {% endif %}
+{% endfor %}
+
+{% if posts.has_other_pages %}
+    <div class="d-flex justify-content-between mb-4">
+        {% if posts.has_previous %}
+            <a class="btn btn-outline-primary text-uppercase" href="?page={{ posts.previous_page_number }}{% if busqueda %}&q={{ busqueda|urlencode }}{% endif %}">← Más nuevos</a>
+        {% else %}<span></span>{% endif %}
+        <span class="align-self-center text-muted">Página {{ posts.number }} de {{ posts.paginator.num_pages }}</span>
+        {% if posts.has_next %}
+            <a class="btn btn-primary text-uppercase" href="?page={{ posts.next_page_number }}{% if busqueda %}&q={{ busqueda|urlencode }}{% endif %}">Más antiguos →</a>
+        {% else %}<span></span>{% endif %}
+    </div>
+{% endif %}
+{% endblock %}

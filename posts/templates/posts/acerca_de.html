@@ -1,0 +1,33 @@
+{% extends "posts/base.html" %}
+{% load static %}
+
+{% block title %}Sobre mí · Blog de Dante{% endblock %}
+
+{% block masthead_img %}{% static 'posts/assets/img/about-bg.jpg' %}{% endblock %}
+
+{% block masthead %}
+<div class="page-heading">
+    <h1>Sobre mí</h1>
+    <span class="subheading">Dante Dirazar · Viedma, Río Negro</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<p>
+    Soy Dante Dirazar. Vengo de más de 15 años en gestión comercial y operaciones
+    administrativo-financieras, y hoy combino ese recorrido con datos y programación:
+    trabajo con Python, SQL, Excel y Power BI para automatizar cálculos y analizar información.
+</p>
+<p>
+    Además presto servicios de drones para el agro y de inspección y mantenimiento de propiedades,
+    y hago auditoría previsional en el sistema SIPA.
+</p>
+<p>
+    Este blog es el proyecto final de la Diplomatura en Python de Coderhouse: una aplicación
+    Django con publicaciones, imágenes, usuarios, perfiles y rutas protegidas, donde voy
+    contando lo que aprendo.
+</p>
+<p>
+    ¿Querés escribirme? Usá el <a href="{% url 'contacto' %}">formulario de contacto</a>.
+</p>
+{% endblock %}
